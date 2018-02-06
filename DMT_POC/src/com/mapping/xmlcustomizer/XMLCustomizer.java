@@ -1,21 +1,13 @@
 package com.mapping.xmlcustomizer;
 
 import java.io.InputStream;
-
 import java.io.OutputStream;
-
 import com.sap.aii.mapping.api.*;
-
 import javax.xml.parsers.DocumentBuilder;
-
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
-
 import org.w3c.dom.Element;
-
 import org.w3c.dom.Node;
-
 import org.w3c.dom.NodeList;
 
 public class XMLCustomizer extends AbstractTransformation {
@@ -27,16 +19,11 @@ public class XMLCustomizer extends AbstractTransformation {
 
 		String RESULT = new String();
 
-		String inicio = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-
-		"<ns0:MT_test xmlns:ns0=\"urn:elrosado.com:switchTransaccional:listaNegra\">";
-
+		String inicio = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+				+ "<ns0:MT_test xmlns:ns0=\"urn:elrosado.com:switchTransaccional:listaNegra\">";
 		String fin = "</ns0:MT_test>";
-
 		String nombre = "";
-
 		String apellido = "";
-
 		String edad = "";
 
 		try {
