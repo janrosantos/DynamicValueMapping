@@ -1,9 +1,6 @@
 package com.grundfos.mapping.dvm;
 
-import java.util.Map;
-
 import com.sap.aii.mapping.api.AbstractTrace;
-import com.sap.aii.mapping.api.StreamTransformationConstants;
 import com.sap.aii.mapping.api.StreamTransformationException;
 import com.sap.aii.mapping.value.api.IFIdentifier;
 import com.sap.aii.mapping.value.api.ValueMappingException;
@@ -15,7 +12,7 @@ import com.sap.aii.mappingtool.tf7.rt.ResultList;
 
 public class DVgetValue {
 
-	public void getValue(String[] dvmTable, ResultList result, int returnVal, Container container)
+	public static void getValue(String[] dvmTable, ResultList result, int returnVal, Container container)
 			throws StreamTransformationException {
 
 		AbstractTrace trace = container.getTrace();
@@ -36,20 +33,16 @@ public class DVgetValue {
 		// Get VM set
 		try {
 
-			IFIdentifier vmsetsrc = XIVMFactory.newIdentifier("http://janro.com/vmrset", senderAgency, senderScheme);
-			IFIdentifier vmsetdst = XIVMFactory
-					.newIdentifier("http://janro.com/vmrset", receiverAgency, receiverScheme);
+			IFIdentifier vmsetsrc = XIVMFactory.newIdentifier("http://grundfos.com/vmrset", senderAgency, senderScheme);
+			IFIdentifier vmsetdst = XIVMFactory.newIdentifier("http://grundfos.com/vmrset", receiverAgency,
+					receiverScheme);
 			String vmset = XIVMService.executeMapping(vmsetsrc, vmsetdst, "0.0.VMRSET");
-			context = "http://janro.com/vmr/" + vmset;
+			context = "http://grundfos.com/vmr/" + vmset;
 			trace.addInfo("Class DVinitIDOC: VMR Set: " + context);
 
 		} catch (Exception e) {
 
 			result.addValue("");
-
-			// trace.addInfo("Class DVinitIDOC: No ValueMapping found for " +
-			// "0.0.VMRSET");
-			// vmOut = new String[] { "", "", "", "", "", "" };
 
 		}
 
@@ -66,16 +59,11 @@ public class DVgetValue {
 		try {
 			if (gcVMKeyL1.equals("null") || gcVMKeyL1.length() == 0) {
 
-				// java.util.Map param =
-				// container.getTransformationParameters();
-				java.util.Map param = (Map) container.getInputParameters();
-				gcVMKeyL1 = (String) param.get(StreamTransformationConstants.CONVERSATION_ID);
+				gcVMKeyL1 = container.getInputHeader().getConversationId();
 			}
 		} catch (Exception e) {
 
-			// java.util.Map param = container.getTransformationParameters();
-			java.util.Map param = (Map) container.getInputParameters();
-			gcVMKeyL1 = (String) param.get(StreamTransformationConstants.CONVERSATION_ID);
+			gcVMKeyL1 = container.getInputHeader().getConversationId();
 		}
 
 		IFIdentifier src = XIVMFactory.newIdentifier(context, senderAgency, senderScheme);
@@ -96,12 +84,6 @@ public class DVgetValue {
 		if (gcVMKeyL4.length() > 0) {
 
 			try {
-				//
-				// String vmkeypc = dvmTable[0] + delimiter + gcVMKeyL1 +
-				// delimiter + delimiter + delimiter + delimiter
-				// + delimiter + delimiter;
-				// vmReturn = XIVMService.executeMapping(src, dst, vmkeypc);
-				//				
 
 				vmKey = dvmTable[0] + delimiter + gcVMKeyL1 + delimiter + delimiter + delimiter + delimiter + delimiter
 						+ delimiter;

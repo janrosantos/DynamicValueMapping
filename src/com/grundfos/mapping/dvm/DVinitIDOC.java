@@ -10,12 +10,13 @@ import com.sap.aii.mappingtool.tf7.rt.GlobalContainer;
 
 public class DVinitIDOC {
 
-	public static String executeDVinitIDOC(String initTable, String direction, String standard, String message,
-			String version, String partnerType, String partner, String company, Container container)
+	public static String executeDVinitIDOC(String direction, String standard, String message, String version,
+			String partnerType, String partner, String company, Container container)
 			throws StreamTransformationException {
 
 		AbstractTrace trace = container.getTrace();
 
+		String initTable = "1.0.LOOKUP";
 		String delimiter = "~@#~";
 		String senderAgency = "VMR_Key";
 		String senderScheme = "VMR_Source";
@@ -32,20 +33,16 @@ public class DVinitIDOC {
 		// Get VM set
 		try {
 
-			IFIdentifier vmsetsrc = XIVMFactory.newIdentifier("http://janro.com/vmrset", senderAgency, senderScheme);
-			IFIdentifier vmsetdst = XIVMFactory
-					.newIdentifier("http://janro.com/vmrset", receiverAgency, receiverScheme);
+			IFIdentifier vmsetsrc = XIVMFactory.newIdentifier("http://grundfos.com/vmrset", senderAgency, senderScheme);
+			IFIdentifier vmsetdst = XIVMFactory.newIdentifier("http://grundfos.com/vmrset", receiverAgency,
+					receiverScheme);
 			String vmset = XIVMService.executeMapping(vmsetsrc, vmsetdst, "0.0.VMRSET");
-			context = "http://janro.com/vmr/" + vmset;
+			context = "http://grundfos.com/vmr/" + vmset;
 			trace.addInfo("Class DVinitIDOC: VMR Set: " + context);
 
 		} catch (Exception e) {
 
 			return ("No ValueMapping found for " + "0.0.VMRSET");
-
-			// trace.addInfo("Class DVinitIDOC: No ValueMapping found for " +
-			// "0.0.VMRSET");
-			// vmOut = new String[] { "", "", "", "", "", "" };
 
 		}
 
@@ -62,34 +59,6 @@ public class DVinitIDOC {
 		IFIdentifier destination3 = XIVMFactory.newIdentifier(context, receiverAgency, receiverScheme3);
 
 		try {
-
-			/*-			vmkey = table + delimiter + direction + delimiter + standard + delimiter + message + delimiter + version
-			 + delimiter + delimiter + delimiter + delimiter + partnertype + delimiter + partner + delimiter
-			 + company + delimiter + delimiter + delimiter;
-			 vmreturn = XIVMService.executeMapping(src, dst, vmkey);
-			 String pc[] = vmreturn.split("\\" + delimiter);
-
-			 String vmkeypc = direction + delimiter + standard + delimiter + message + delimiter + version + delimiter
-			 + pc[0] + delimiter + pc[1] + delimiter + pc[2];
-			 String vmkeypg = direction + delimiter + standard + delimiter + message + delimiter + version + delimiter
-			 + "PG" + delimiter + pc[1] + delimiter;
-			 String vmkeygc = direction + delimiter + standard + delimiter + message + delimiter + version + delimiter
-			 + "GC" + delimiter + delimiter + pc[2];
-			 String vmkeygg = direction + delimiter + standard + delimiter + message + delimiter + version + delimiter
-			 + "GG" + delimiter + delimiter;
-
-			 globalContainer.setParameter("vmkeypc", vmkeypc);
-			 globalContainer.setParameter("vmkeypg", vmkeypg);
-			 globalContainer.setParameter("vmkeygc", vmkeygc);
-			 globalContainer.setParameter("vmkeygg", vmkeygg);
-			 trace.addInfo("Initialize VM Key PC: " + vmkeypc);
-			 trace.addInfo("Initialize VM Key PG: " + vmkeypg);
-			 trace.addInfo("Initialize VM Key GC: " + vmkeygc);
-			 trace.addInfo("Initialize VM Key GG: " + vmkeygg);*/
-
-			/*
-			 * Try first L1 initialization
-			 */
 
 			vmKey = initTable + delimiter + delimiter + delimiter + delimiter + delimiter + delimiter + delimiter
 					+ delimiter + partnerType + delimiter + partner + delimiter + company + delimiter + delimiter
@@ -139,33 +108,6 @@ public class DVinitIDOC {
 
 				trace.addInfo("Class DVinitIDOC: No VM Key L1 found for " + vmKey + ". Trying VM Key L2.");
 
-				/*-				vmkey = table + delimiter + direction + delimiter + standard + delimiter + message + delimiter
-				 + version + delimiter + delimiter + delimiter + delimiter + partnertype + delimiter + partner
-				 + delimiter + delimiter + delimiter + delimiter;
-				 vmreturn = XIVMService.executeMapping(src, dst, vmkey);
-				 String pg[] = vmreturn.split("\\" + delimiter);
-
-				 String vmkeypc = ""; // direction + delimiter + standard +
-				 // delimiter + message + delimiter +
-				 // version + delimiter + pg[0] +
-				 // delimiter + pg[1] + delimiter;
-				 String vmkeypg = direction + delimiter + standard + delimiter + message + delimiter + version
-				 + delimiter + "PG" + delimiter + pg[1] + delimiter;
-				 String vmkeygc = direction + delimiter + standard + delimiter + message + delimiter + version
-				 + delimiter + "GC" + delimiter + delimiter + company;
-				 String vmkeygg = direction + delimiter + standard + delimiter + message + delimiter + version
-				 + delimiter + "GG" + delimiter + delimiter;
-
-				 globalContainer.setParameter("vmkeypc", vmkeypc);
-				 globalContainer.setParameter("vmkeypg", vmkeypg);
-				 globalContainer.setParameter("vmkeygc", vmkeygc);
-				 globalContainer.setParameter("vmkeygg", vmkeygg);
-				 trace.addInfo("Initialize VM Key PC: Not possible.");
-				 trace.addInfo("Initialize VM Key PG: " + vmkeypg);
-				 trace.addInfo("Initialize VM Key GC: " + vmkeygc);
-				 trace.addInfo("Initialize VM Key GG: " + vmkeygg);
-				 */
-
 				vmKey = initTable + delimiter + delimiter + delimiter + delimiter + delimiter + delimiter + delimiter
 						+ delimiter + partnerType + delimiter + partner + delimiter + company + delimiter + delimiter
 						+ delimiter;
@@ -209,10 +151,6 @@ public class DVinitIDOC {
 
 			} catch (Exception eL2) {
 
-				globalContainer.setParameter("vmkeypc", "");
-				globalContainer.setParameter("vmkeypg", "");
-				globalContainer.setParameter("vmkeygc", "");
-				globalContainer.setParameter("vmkeygg", "");
 				globalContainer.setParameter("vmKeyL1", "");
 				globalContainer.setParameter("vmKeyL2", "");
 				globalContainer.setParameter("vmKeyL3", "");
