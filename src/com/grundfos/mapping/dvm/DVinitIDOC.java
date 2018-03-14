@@ -26,6 +26,9 @@ public class DVinitIDOC {
 		String receiverScheme2 = "VMR_Target_2";
 		String receiverScheme3 = "VMR_Target_3";
 		String context = "";
+		
+		partner = String.format("%010d", Long.parseLong(partner));
+		company = company.substring(company.length()-3, company.length());
 
 		GlobalContainer globalContainer;
 		globalContainer = container.getGlobalContainer();

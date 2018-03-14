@@ -165,7 +165,8 @@ public class DVgetValueVarInputs {
 
 				} catch (ValueMappingException eL2) {
 
-					trace.addInfo("Class DVgetValue: VM Key L2 for Table " + dvmTable[0] + " not found. Trying VM Key L3.");
+					trace.addInfo("Class DVgetValue: VM Key L2 for Table " + dvmTable[0]
+							+ " not found. Trying VM Key L3.");
 
 					try {
 
@@ -208,7 +209,8 @@ public class DVgetValueVarInputs {
 
 					} catch (ValueMappingException eL3) {
 
-						trace.addInfo("Class DVgetValue: VM Key L3 for Table " + dvmTable[0] + " not found. Trying VM Key L4.");
+						trace.addInfo("Class DVgetValue: VM Key L3 for Table " + dvmTable[0]
+								+ " not found. Trying VM Key L4.");
 
 						try {
 
@@ -250,8 +252,8 @@ public class DVgetValueVarInputs {
 
 						} catch (ValueMappingException eL4) {
 
-							trace.addInfo("Class DVgetValue: VM Key L4 for Table " + dvmTable[0] + "  not found. Conversion failed. "
-									+ eL4);
+							trace.addInfo("Class DVgetValue: VM Key L4 for Table " + dvmTable[0]
+									+ "  not found. Conversion failed. ");
 							result.addValue("");
 
 						}

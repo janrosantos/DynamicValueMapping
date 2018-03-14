@@ -201,8 +201,7 @@ public class DVgetValue {
 
 						} catch (ValueMappingException egg) {
 
-							trace.addInfo("VM Key L4 for Table " + dvmTable[0] + "  not found. Conversion failed. "
-									+ egg);
+							trace.addInfo("VM Key L4 for Table " + dvmTable[0] + "  not found. Conversion failed.");
 							result.addValue("");
 
 						}
