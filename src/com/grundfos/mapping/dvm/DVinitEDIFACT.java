@@ -11,7 +11,7 @@ import com.sap.aii.mappingtool.tf7.rt.GlobalContainer;
 public class DVinitEDIFACT {
 
 	public static String executeDVinitEDIFACT(String direction, String standard, String message, String version,
-			String senderGLN, String senderQualf, String receiverGLN, String receiverQualf, Container container)
+			String senderGLN, String senderQualf, String receiverGLN, String receiverQualf, String branchCode, Container container)
 			throws StreamTransformationException {
 
 		AbstractTrace trace = container.getTrace();
@@ -65,7 +65,7 @@ public class DVinitEDIFACT {
 
 			vmKey = initTable + delimiter + delimiter + delimiter + delimiter + delimiter + delimiter + delimiter
 					+ delimiter + senderGLN + delimiter + senderQualf + delimiter + receiverGLN + delimiter
-					+ receiverQualf + delimiter + delimiter;
+					+ receiverQualf + delimiter + branchCode + delimiter;
 
 			vmReturn1 = XIVMService.executeMapping(source, destination1, vmKey);
 			try {
